@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->longText('description');
             $table->string('image')->nullable();
             $table->boolean('can_comment')->nullable()->default(true);
             
