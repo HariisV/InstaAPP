@@ -14,9 +14,6 @@ use App\Http\Livewire\Dashboard;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 Route::middleware([
@@ -24,5 +21,5 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/', Dashboard::class)->name('dashboard');
 });

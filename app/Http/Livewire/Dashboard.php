@@ -15,10 +15,12 @@ class Dashboard extends Component
         'description' => ''
     ];
 
+    public $new_comment = [];
+
     public $all_post = [];
 
     public function reget_data(){
-        $this->all_post = Post::orderBy('created_at', 'desc')->with('likes')->get();
+        $this->all_post = Post::orderBy('created_at', 'desc')->with('likes')->with('comments')->get();
     }
 
     public function mount(){
@@ -52,6 +54,11 @@ class Dashboard extends Component
         ]);
 
         $this->reget_data();
+        $this->new_post = [
+            'image' => null,
+            'can_comment' => true,
+            'description' => ''
+        ];
     }
 
     public function like_post($id){
@@ -63,6 +70,34 @@ class Dashboard extends Component
                 'user_id' => auth()->user()->id,
                 'post_id' => $id
             ]);
+        }
+        $this->reget_data();
+    }
+
+    public function new_comment($id){
+        $this->validate([
+            'new_comment.'.$id => ['required', 'string'],
+        ], [], [
+            'new_comment.'.$id => 'Comment',
+        ]);
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'post_id' => $id,
+            'comment' => $this->new_comment[$id]
+        ]);
+        $this->reget_data();
+        $this->new_comment[$id] = '';
+    }
+
+    public function delete_post($id){
+        $post = Post::find($id);
+
+        
+        if ($post) {
+            if ($post->image) {
+                unlink(storage_path('app/public/' . $post->image));
+            }
+            $post->delete();
         }
         $this->reget_data();
     }
