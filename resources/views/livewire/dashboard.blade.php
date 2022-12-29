@@ -4,7 +4,7 @@
     <div class="w-1/2 mx-auto mt-10 sm:px-6 lg:px-8">
         <div class="bg-white w-full h-full overflow-hidden p-5 rounded-xl">
             <div class="flex mb-4">
-                <img src="https://ui-avatars.com/api/?name=H+W&color=7F9CF5&background=EBF4FF" class="w-8 h-8 rounded-full" alt="">
+                <img src="{{ Auth()->user()->profile_photo_url }}" class="w-8 h-8 rounded-full" alt="">
                 <p class="ml-2 text-gray-700 self-center text-sm">
                     {{ Auth()->user()->name  }}
                 </p>
@@ -81,7 +81,7 @@
                     </section>
                     <section id="like">
                         @php
-                            $isLike = $item->likes->where('user_id', 1)->first();
+                            $isLike = $item->likes->where('user_id', Auth()->user()->id)->first();
                         @endphp
                         <button class="mt-4 flex {{  $isLike ? "bg-blue-400" : "bg-white border border-gray-300" }} p-1.5 w-fit rounded-full px-2" wire:click="like_post({{ $item->id }})">
                             <div>
@@ -96,9 +96,9 @@
                         @forelse ($item->comments as $key => $comment_id)
                             <div class="my-4 border-b {{ $key == 0 ? "border-t pt-5" : "" }} pb-4  border-gray-300">
                                 <div class="flex">
-                                    <img src="https://ui-avatars.com/api/?name=H+W&color=7F9CF5&background=EBF4FF" class="w-6 h-6 rounded-full" alt="">
+                                    <img src="{{ $comment_id->user->profile_photo_url }}" class="w-6 h-6 rounded-full" alt="">
                                     <p class="ml-2 text-gray-700 self-center text-xs">
-                                        {{ Auth()->user()->name  }}
+                                       {{ $comment_id->user->name }}
                                     </p>
                                 </div>
                                 <p class="mt-3 text-xs text-gray-700">

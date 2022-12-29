@@ -11,7 +11,6 @@ class Dashboard extends Component
 
     public $new_post = [
         'image' => null,
-        'can_comment' => true,
         'description' => ''
     ];
 
@@ -49,14 +48,12 @@ class Dashboard extends Component
         $post = Post::create([
             'user_id' => auth()->user()->id,
             'image' => $this->new_post['image'],
-            'can_comment' => $this->new_post['can_comment'],
             'description' => $this->new_post['description']
         ]);
 
         $this->reget_data();
         $this->new_post = [
             'image' => null,
-            'can_comment' => true,
             'description' => ''
         ];
     }

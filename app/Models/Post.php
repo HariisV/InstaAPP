@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
     public $table = 'post';
     public $fillable = [
-        'user_id', 'description', 'image', 'can_comment'
+        'user_id', 'description', 'image'
     ];
 
     public function likes () {
